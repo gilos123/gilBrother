@@ -1,15 +1,12 @@
-import { base44 } from './base44Client';
+// AFTER
+import { supabase } from '@/lib/supabaseClient'; // Make sure the path is correct
 
+async function getUserProgress(userId) {
+  const { data: progress, error } = await supabase
+    .from('UserProgress') // The name of your table in Supabase
+    .select('*')
+    .eq('user_id', userId); // '.eq' means 'equals'
 
-export const UserProgress = base44.entities.UserProgress;
-
-export const Session = base44.entities.Session;
-
-export const WeeklyArena = base44.entities.WeeklyArena;
-
-export const UserBadges = base44.entities.UserBadges;
-
-
-
-// auth sdk:
-export const User = base44.auth;
+  if (error) console.error('Error fetching user progress:', error);
+  return progress;
+}
